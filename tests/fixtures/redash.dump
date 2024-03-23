@@ -1,0 +1,91 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 16.2
+-- Dumped by pg_dump version 16.2
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Data for Name: dashboards; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.dashboards (updated_at, created_at, id, version, org_id, slug, name, user_id, layout, dashboard_filters_enabled, is_archived, is_draft, tags, options) FROM stdin;
+2023-11-02 21:41:54.782771+00	2023-11-02 21:41:50.621699+00	1	2	1	test-dashboard	Test Dashboard	1	[]	f	f	f	\N	{}
+\.
+
+
+--
+-- Data for Name: queries; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.queries (updated_at, created_at, id, version, org_id, data_source_id, latest_query_data_id, name, description, query, query_hash, api_key, user_id, last_modified_by_id, is_archived, is_draft, schedule, schedule_failures, options, search_vector, tags) FROM stdin;
+2023-11-02 21:45:45.647106+00	2023-11-02 21:44:37.852621+00	2	1	1	1	8	Events	\N	SELECT count(id), action FROM events GROUP BY action;	0684061ed3cc2a8b92922a3184a1040e	DSfiWIhr660g8BqQ2JphL7hs39SYbZVYyoQPKEya	1	1	f	f	\N	0	{"parameters": [], "apply_auto_limit": true}	'2':1B 'action':6,11 'by':10 'count':4 'events':2A,8 'from':7 'group':9 'id':5 'select':3	{}
+2024-03-21 17:25:51.116244+00	2023-11-02 21:42:24.79555+00	1	1	1	1	\N	Query Summary	\N	 SELECT name, length(query), schedule, (options::json)->>'parameters' AS parameters\n FROM queries\n WHERE is_archived='{{is_archived}}'\n AND is_draft='f'\n ORDER BY created_at\n LIMIT {{num_results}}	1d4a7d15e847ad23a11783063aca101f	hlUhncQtwdUYSKlefVIck6bmFBY9guBhJ8pSnueq	1	1	f	f	\N	0	{"parameters": [{"name": "is_archived", "type": "enum", "title": "is_archived", "value": "false", "global": false, "locals": [], "enumOptions": "true\\nfalse"}, {"name": "num_results", "type": "number", "title": "num_results", "value": 500, "global": false, "locals": []}], "apply_auto_limit": false}	'1':1B 'and':21 'archived':18,20 'as':12 'at':28 'by':26 'created':27 'draft':23 'f':24 'from':14 'is':17,19,22 'json':10 'length':6 'limit':29 'name':5 'num':30 'options':9 'order':25 'parameters':11,13 'queries':15 'query':2A,7 'results':31 'schedule':8 'select':4 'summary':3A 'where':16	{}
+\.
+
+
+--
+-- Data for Name: visualizations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.visualizations (updated_at, created_at, id, type, query_id, name, description, options) FROM stdin;
+2023-11-02 21:44:49.10865+00	2023-11-02 21:42:24.79555+00	1	TABLE	1	Table		{}
+2023-11-02 21:45:18.256534+00	2023-11-02 21:44:37.852621+00	2	TABLE	2	Table		{}
+2023-11-02 21:46:04.737199+00	2023-11-02 21:45:45.647106+00	3	CHART	2	Chart		{"sortX": true, "xAxis": {"type": "-", "labels": {"enabled": true}}, "yAxis": [{"type": "linear"}, {"type": "linear", "opposite": true}], "legend": {"enabled": true, "placement": "auto", "traceorder": "normal"}, "series": {"error_y": {"type": "data", "visible": true}, "stacking": null}, "error_y": {"type": "data", "visible": true}, "sizemode": "diameter", "direction": {"type": "counterclockwise"}, "enableLink": false, "linkFormat": "", "textFormat": "", "coefficient": 1, "numberFormat": "0,0[.]00000", "columnMapping": {"count": "y", "action": "x"}, "percentFormat": "0[.]00%", "seriesOptions": {}, "valuesOptions": {}, "dateTimeFormat": "DD/MM/YY HH:mm", "linkOpenNewTab": true, "showDataLabels": false, "alignYAxesAtZero": false, "globalSeriesType": "column", "missingValuesAsZero": true}
+\.
+
+
+--
+-- Data for Name: widgets; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.widgets (updated_at, created_at, id, visualization_id, text, width, options, dashboard_id) FROM stdin;
+2023-11-02 21:45:24.492842+00	2023-11-02 21:45:18.256534+00	3	2		1	{"isHidden": false, "position": {"col": 0, "row": 8, "sizeX": 3, "sizeY": 12, "maxSizeX": 6, "maxSizeY": 1000, "minSizeX": 2, "minSizeY": 1, "autoHeight": false}, "parameterMappings": {}}	1
+2023-11-02 21:46:10.366603+00	2023-11-02 21:46:04.737199+00	4	3		1	{"isHidden": false, "position": {"col": 3, "row": 8, "sizeX": 3, "sizeY": 12, "maxSizeX": 6, "maxSizeY": 1000, "minSizeX": 1, "minSizeY": 5, "autoHeight": false}, "parameterMappings": {}}	1
+2024-03-13 19:48:31.885673+00	2023-11-02 21:42:51.82562+00	1	1		1	{"isHidden": false, "position": {"col": 0, "row": 0, "sizeX": 6, "sizeY": 8, "maxSizeX": 6, "maxSizeY": 1000, "minSizeX": 2, "minSizeY": 1, "autoHeight": false}, "parameterMappings": {"is_archived": {"name": "is_archived", "type": "widget-level", "mapTo": "is_archived", "title": "", "value": null}, "num_results": {"name": "num_results", "type": "widget-level", "mapTo": "num_results", "title": "", "value": null}}}	1
+\.
+
+
+--
+-- Name: dashboards_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.dashboards_id_seq', 1, false);
+
+
+--
+-- Name: queries_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.queries_id_seq', 1, false);
+
+
+--
+-- Name: visualizations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.visualizations_id_seq', 1, false);
+
+
+--
+-- Name: widgets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.widgets_id_seq', 1, false);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

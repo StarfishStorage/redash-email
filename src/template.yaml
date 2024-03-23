@@ -1,0 +1,22 @@
+redash_url: http://10.10.10.10:5001/
+redash_key:
+sender: Redash <noreply@redash.io>
+mailhost_url: smtp://10.10.10.10:25
+#mailhost_url: smtp+tls://user:pass@localhost:587
+#mailhost_url: smtp+tls://relay.my.domain?username=user&password=pass
+#mailhost_url: smtps://user:pass@relay.my.domain
+message_body: |
+  Attached is a PDF of the report.
+
+reports:
+  - dashboard: "Test Dashboard"
+    recipients:
+      - user@local
+    parameters:
+      is_archived:
+        - "true"
+        - "false"
+    attachments:
+      - query: "Query Summary"
+        extra_parameters:
+          num_results: 10
