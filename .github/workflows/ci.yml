@@ -1,0 +1,33 @@
+name: Precheckin
+on:
+  push:
+    branches:
+      - master
+  pull_request_target:
+    branches:
+      - master
+
+jobs:
+  lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.8'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: pip install -r dev.txt
+      - run: npm install
+      - run: make lint
+
+  unit-tests:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.8'
+      - run: pip install -r dev.txt
+      - run: make check
