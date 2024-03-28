@@ -1,0 +1,4 @@
+pytest
+pyyaml
+requests
+ruff==0.2.2
