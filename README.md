@@ -46,7 +46,7 @@ Running Unit Tests
 
     python3 -m venv ~/redashvenv1
     source ~/redashvenv1/bin/activate
-    pip install pytest pyyaml requests ruff
+    pip install -r dev.txt
     npm install
     make check
 
