@@ -10,7 +10,7 @@ check:
 lint:
 	ruff check
 	ruff format --check
-	PATH=node_modules/.bin:$$PATH eslint src/*.js
+	npx eslint src/*.js
 
 image:
 	docker build -t ${IMAGE} -f Dockerfile .
