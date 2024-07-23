@@ -41,13 +41,16 @@ Verify communication with the Redash API
 
     docker run -v $PWD/user-report.yaml:/home/automation/report.yaml -t $IMAGE --dry-run --verbose
 
-Running Unit Tests
-------------------
+Running Checks
+--------------
 
-    python3 -m venv ~/redashvenv1
-    source ~/redashvenv1/bin/activate
+To run lint and unit tests:
+
+    python3 -m venv ~/.venv/redash-email
+    source ~/.venv/redash-email/bin/activate
     pip install -r dev.txt
     npm install
+    make lint
     make check
 
 Running System Test

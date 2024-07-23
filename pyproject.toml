@@ -1,9 +1,5 @@
 [tool.ruff]
 line-length = 100
-target-version = "py38"
-
-[tool.ruff.lint]
-ignore = ["E501"]
-select = ["C9", "E", "F", "W", "I001", "UP004"]
+target-version = "py311"
 
 [tool.ruff.format]
