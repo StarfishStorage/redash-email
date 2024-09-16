@@ -13,5 +13,6 @@ WORKDIR /home/automation
 RUN npm -d install puppeteer@22.4.1
 
 COPY --chown=automation:automation src/* /home/automation/
+RUN install -d -o automation -g automation /home/automation/reports
 
 ENTRYPOINT ["/home/automation/send-report.py"]
