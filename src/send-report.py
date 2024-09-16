@@ -66,10 +66,6 @@ if __name__ == "__main__":
                 len(parameters.keys()) == 1
             ), f"{report['dashboard']}: only one type of parameter may be specified"
             key = list(parameters.keys())[0]
-            assert key not in [
-                "usernames",
-                "volumes",
-            ], f"{report['dashboard']}: '{key}' should not end with 's'"
 
             for parameter in parameters[key]:
                 if parameter:
