@@ -45,11 +45,6 @@ if __name__ == "__main__":
     parser.add_argument(
         "--verbose", action="store_true", default=False, help="Print external commands"
     )
-    parser.add_argument(
-        "--share",
-        choices=["enable", "disable"],
-        help="Turn share links on/off. The default is to preserve prior state.",
-    )
     args = parser.parse_args()
 
     cfg = Config.from_file(args.config)
@@ -64,10 +59,6 @@ if __name__ == "__main__":
     for report in cfg["reports"]:
         (dashboard_id, dashboard_slug) = redash.dashboard_id(report["dashboard"])
         public_url = redash_url + urlparse(redash.dashboard_public_url(dashboard_id)).path
-        if args.share == "enable":
-            redash.is_shared[dashboard_id] = True
-        if args.share == "disable":
-            redash.is_shared[dashboard_id] = False
 
         try:
             parameters = report.get("parameters", {None: [None]})  # iterate once
