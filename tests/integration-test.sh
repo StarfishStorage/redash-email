@@ -8,11 +8,12 @@ log() {
 	fi
 }
 
+tmpdir=$(mktemp -d /tmp/redash-email-test.XXXXX)
 trap 'printf "$0: exit code $? on line $LINENO\n" >&2; exit 1' ERR
-trap 'rm -f $yaml_config' EXIT
+trap 'rm -rf $tmpdir' EXIT
 
 image=redash-email
-yaml_config=/tmp/user-report.yaml
+yaml_config=$tmpdir/user-report.yaml
 redash_api_key=$(docker compose exec postgres psql -At -U postgres -c "SELECT api_key FROM users WHERE email='redash@redash.io'")
 mailto="${USER}@localhost"
 
@@ -45,6 +46,8 @@ reports:
 YAML
 
 log "Execute in container"
-docker run --network redash-email -v $yaml_config:/home/automation/report.yaml -t $image "$@"
+docker run --network redash-email \
+    -v $yaml_config:/home/automation/report.yaml \
+    -t $image "$@"
 
 log "Integration test PASSED"
