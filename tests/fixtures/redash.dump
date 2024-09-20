@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 16.2
--- Dumped by pg_dump version 16.2
+-- Dumped from database version 16.4
+-- Dumped by pg_dump version 16.4
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -30,7 +30,7 @@ COPY public.dashboards (updated_at, created_at, id, version, org_id, slug, name,
 --
 
 COPY public.queries (updated_at, created_at, id, version, org_id, data_source_id, latest_query_data_id, name, description, query, query_hash, api_key, user_id, last_modified_by_id, is_archived, is_draft, schedule, schedule_failures, options, search_vector, tags) FROM stdin;
-2023-11-02 21:45:45.647106+00	2023-11-02 21:44:37.852621+00	2	1	1	1	8	Events	\N	SELECT count(id), action FROM events GROUP BY action;	0684061ed3cc2a8b92922a3184a1040e	DSfiWIhr660g8BqQ2JphL7hs39SYbZVYyoQPKEya	1	1	f	f	\N	0	{"parameters": [], "apply_auto_limit": true}	'2':1B 'action':6,11 'by':10 'count':4 'events':2A,8 'from':7 'group':9 'id':5 'select':3	{}
+2024-09-16 20:09:47.396216+00	2023-11-02 21:44:37.852621+00	2	1	1	1	\N	Events	\N	SELECT count(id), action\nFROM events GROUP BY action;	0684061ed3cc2a8b92922a3184a1040e	DSfiWIhr660g8BqQ2JphL7hs39SYbZVYyoQPKEya	1	1	f	f	\N	0	{"parameters": [], "apply_auto_limit": true}	'2':1B 'action':6,11 'by':10 'count':4 'events':2A,8 'from':7 'group':9 'id':5 'select':3	{}
 2024-03-21 17:25:51.116244+00	2023-11-02 21:42:24.79555+00	1	1	1	1	\N	Query Summary	\N	 SELECT name, length(query), schedule, (options::json)->>'parameters' AS parameters\n FROM queries\n WHERE is_archived='{{is_archived}}'\n AND is_draft='f'\n ORDER BY created_at\n LIMIT {{num_results}}	1d4a7d15e847ad23a11783063aca101f	hlUhncQtwdUYSKlefVIck6bmFBY9guBhJ8pSnueq	1	1	f	f	\N	0	{"parameters": [{"name": "is_archived", "type": "enum", "title": "is_archived", "value": "false", "global": false, "locals": [], "enumOptions": "true\\nfalse"}, {"name": "num_results", "type": "number", "title": "num_results", "value": 500, "global": false, "locals": []}], "apply_auto_limit": false}	'1':1B 'and':21 'archived':18,20 'as':12 'at':28 'by':26 'created':27 'draft':23 'f':24 'from':14 'is':17,19,22 'json':10 'length':6 'limit':29 'name':5 'num':30 'options':9 'order':25 'parameters':11,13 'queries':15 'query':2A,7 'results':31 'schedule':8 'select':4 'summary':3A 'where':16	{}
 \.
 

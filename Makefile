@@ -36,6 +36,7 @@ down:
 	rm -f .env
 
 dump:
+	docker compose exec postgres psql -U postgres -c "UPDATE queries SET latest_query_data_id = NULL"
 	docker compose exec postgres pg_dump -a -U postgres -t dashboards -t queries -t visualizations -t widgets -f fixtures/redash.dump
 
 .PHONY: check lint image up test down dump
