@@ -10,7 +10,7 @@ RUN useradd -m -r -g automation -G audio,video automation
 USER automation
 
 WORKDIR /home/automation
-RUN npm -d install puppeteer@22.4.1
+RUN npm -d install puppeteer@22.8.2
 
 COPY --chown=automation:automation src/* /home/automation/
 RUN install -d -o automation -g automation /home/automation/reports
