@@ -39,6 +39,11 @@ class MailUtil:
             elif self.host_url.scheme == "smtps":
                 self.port = 465
 
+    def __repr__(self):
+        return "host {} using {} port {}".format(
+            self.host_url.hostname, self.host_url.scheme.upper(), self.port
+        )
+
     def url_param(self, param, default):
         """Get a parameter from the query string"""
 
@@ -48,7 +53,7 @@ class MailUtil:
         return default
 
     def send_smtp(self):
-        """Open an SMTP connection to relay running on local host"""
+        """Send mail using smtp, smtps, or smtp+tls"""
 
         for hdr in self.headers:  # pylint: disable=C0206
             self.message[hdr] = self.headers[hdr]
@@ -74,8 +79,7 @@ class MailUtil:
         server.quit()
 
     def attach(self, filename, mimetype="application/octet-stream", stream=None):
-        """add an attachment to the email, application/octet-stream
-        :return: Nothing"""
+        """Add an attachment to the email, application/octet-stream"""
 
         first, second = mimetype.split("/")
 
@@ -101,7 +105,7 @@ class MailUtil:
         self.message.attach(part)
 
     def set_body(self, bodytext, msgtype="plain"):
-        """set the message body text"""
+        """Set the message body text"""
         # Use Quoted Printable for body (default is binhex64)
         charset = Charset("utf-8")
         charset.header_encoding = QP
@@ -114,6 +118,6 @@ class MailUtil:
         self.headers[header] = value
 
     def set_headers(self, **kwargs):
-        """set multiple headers at once"""
+        """Set multiple headers at once"""
         for hkey, hvalue in kwargs.items():
             self.set_header(hkey, hvalue)

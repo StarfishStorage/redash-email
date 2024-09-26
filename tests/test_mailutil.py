@@ -17,6 +17,17 @@ def test_mail_server_specification():
         )
 
 
+def test_mail_server_repr():
+    smtp_url = "smtp://localhost"
+    sm = MailUtil(
+        smtp_url,
+        From="noreply@redash.io",
+        To="admin@redash.io",
+        Subject="Report",
+    )
+    assert str(sm) == "host localhost using SMTP port 25"
+
+
 def test_mail_server_specification_invalid():
     with pytest.raises(ValueError, match="Mailhost url scheme must be one of"):
         MailUtil(
