@@ -24,8 +24,8 @@ up: .env
 	docker compose exec server ./manage.py users create_root redash@redash.io Redash --password ${PASS}
 	docker compose exec server ./manage.py ds new --type pg --options '{"dbname": "postgres", "host": "postgres", "port": 5432, "user": "postgres"}' redash
 	docker compose exec postgres psql -1 -U postgres -c "SET session_replication_role = replica" -f fixtures/redash.dump > /dev/null
-	@echo "redash: http://${MYIP}:1080/"
-	@echo "maildev: http://${MYIP}:5001/  # redash@redash.io ${PASS}"
+	@echo "maildev: http://${MYIP}:1080/"
+	@echo "redash: http://${MYIP}:5001/  # redash@redash.io ${PASS}"
 
 test:
 	@tests/integration-test.sh --verbose
