@@ -29,6 +29,7 @@ def remember_cwd():
 
 
 if __name__ == "__main__":
+    os.chdir(os.path.dirname(__file__))
     try:
         buildinfo = open(".build", "r", encoding="utf-8").read()  # pylint: disable=R1732
     except FileNotFoundError:

@@ -41,6 +41,15 @@ Verify communication with the Redash API
 
     docker run -v $PWD/user-report.yaml:/home/automation/report.yaml -t $IMAGE --dry-run --verbose
 
+Save a copy of reports by mapping a path to `/reports` and launching as the
+current user
+
+    docker run \
+      --user $(id -u):$(id -g) \
+      -v /var/reports/home/automation/reports \
+      -v /var/reports/user-report.yaml:/home/automation/report.yaml \
+      -t $IMAGE --dry-run
+
 Running Checks
 --------------
 

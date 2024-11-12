@@ -10,9 +10,14 @@ RUN useradd -m -r -g automation -G audio,video automation
 USER automation
 
 WORKDIR /home/automation
+ENV PUPPETEER_CACHE_DIR="/home/automation"
+ENV NODE_PATH="/home/automation/node_modules"
 RUN npm -d install puppeteer@22.8.2
 
 COPY --chown=automation:automation src/* /home/automation/
-RUN install -d -o automation -g automation /home/automation/reports
+RUN install -d -m 1777 -o automation -g automation /home/automation/reports
+
+ENV XDG_CONFIG_HOME=/tmp/.chromium
+ENV XDG_CACHE_HOME=/tmp/.chromium
 
 ENTRYPOINT ["/home/automation/send-report.py"]
