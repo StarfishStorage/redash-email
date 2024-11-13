@@ -47,6 +47,7 @@ YAML
 
 log "Execute in container"
 docker run --network redash-email \
+    --user $(id -u):$(id -g) \
     -v $yaml_config:/home/automation/report.yaml \
     -t $image "$@"
 
