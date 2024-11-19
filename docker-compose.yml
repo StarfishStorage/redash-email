@@ -1,6 +1,6 @@
 version: "2.2"
 x-redash-service: &redash-service
-  image: redash/preview:24.10.0-dev
+  image: redash/preview:24.11.0-dev
   env_file:
     - .env
 x-redash-environment: &redash-environment

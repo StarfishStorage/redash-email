@@ -9,6 +9,7 @@ Features:
 * Distracting formatting is stripped out or replaced
 * Dashboards regenerated for each parameter value
 * Attach complete query results as a CSV file
+* Save PDF and CSV results to a timestamped directory
 
 Supported Protocols:
 
@@ -41,12 +42,12 @@ Verify communication with the Redash API
 
     docker run -v $PWD/user-report.yaml:/home/automation/report.yaml -t $IMAGE --dry-run --verbose
 
-Save a copy of reports by mapping a path to `/reports` and launching as the
-current user
+Save a copy of reports by mapping a path to `/var/reports` and launching with a
+specified UID/GID
 
     docker run \
       --user $(id -u):$(id -g) \
-      -v /var/reports/home/automation/reports \
+      -v /var/reports:/home/automation/reports \
       -v /var/reports/user-report.yaml:/home/automation/report.yaml \
       -t $IMAGE --dry-run
 
@@ -85,5 +86,5 @@ Limitations
 -----------
 
 Dashboards are rendered by enabling a share link, but Redash does not allow
-dashboards with text parameters to be shared. Hence all parameters must be a
-dropdown list, number or date.
+dashboards with Text parameters to be shared. All parameters must be a Text
+Pattern, Number, Dropdown List, or Date.
