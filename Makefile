@@ -9,8 +9,11 @@ check:
 
 lint:
 	ruff check
-	ruff format --check
 	npx eslint src/*.js
+
+format:
+	ruff format
+	npx prettier --write 'src/*.js'
 
 image:
 	docker build -t ${IMAGE} -f Dockerfile .

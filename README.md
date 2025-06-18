@@ -61,6 +61,7 @@ To run lint and unit tests:
     pip install -r dev.txt
     npm install
     make lint
+    make format
     make check
 
 Running System Test
