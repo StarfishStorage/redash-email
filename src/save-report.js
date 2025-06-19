@@ -139,8 +139,10 @@ function replaceParams(pageUrl, params) {
     /* Replace dropdown search inputs with text inputs */
     const container = document.getElementsByClassName("parameter-container")[0];
     for (const param in params) {
+      let param_matches = 0;
       for (const labelElement of container.getElementsByTagName("label")) {
         if (labelElement.innerText.toLowerCase() == param) {
+          param_matches++;
           labelElement.parentElement.nextElementSibling.innerHTML = `
           <div class="parameter-input" data-test="ParameterValueInput">
             <input class="ant-input" aria-label="Parameter text value"
@@ -149,6 +151,8 @@ function replaceParams(pageUrl, params) {
           `;
         }
       }
+      if (param_matches == 0)
+        throw Error(`no match found for parameter "${param}"`);
     }
 
     /* Add fake top-level parameter inputs if not found */

@@ -14,10 +14,11 @@ trap 'rm -rf $tmpdir' EXIT
 
 image=redash-email
 yaml_config=$tmpdir/user-report.yaml
+out=$tmpdir/send-report.out
 redash_api_key=$(docker compose exec postgres psql -At -U postgres -c "SELECT api_key FROM users WHERE email='redash@redash.io'")
 mailto="${USER}@localhost"
 
-log "Generate config"
+log "Send PDF for two parameters and attach query"
 cat <<YAML > $yaml_config
 redash_url: http://server:5000
 redash_key: ${redash_api_key}
@@ -44,11 +45,33 @@ reports:
         extra_parameters:
           num_results: 10
 YAML
-
-log "Execute in container"
 docker run --network redash-email \
     --user $(id -u):$(id -g) \
     -v $yaml_config:/home/automation/report.yaml \
-    -t $image "$@"
+    -t $image "$@" | tee $out
+grep -q "Connect to host email using SMTP" $out
+
+log "Raise error if parameter is not found"
+cat <<YAML > $yaml_config
+redash_url: http://server:5000
+redash_key: ${redash_api_key}
+sender: Redash <admin@redash.io>
+mailhost_url: smtp://email:1025
+message_body: |
+  Attached is a PDF of the report.
+
+reports:
+  - dashboard: "Test Dashboard"
+    recipients:
+      - ${mailto}
+    parameters:
+      username:
+        - "root"
+YAML
+docker run --network redash-email \
+    --user $(id -u):$(id -g) \
+    -v $yaml_config:/home/automation/report.yaml \
+    -t $image | cat > $out
+grep -q "no match found for parameter" $out || { cat $out; exit 1; }
 
 log "Integration test PASSED"
