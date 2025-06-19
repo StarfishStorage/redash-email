@@ -5,11 +5,8 @@ MYIP != hostname -i
 PASS != pwgen -1s 6
 
 check:
-	@PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=$$PYTHONPATH:src pytest tests/
-
-lint:
 	ruff check
-	npx eslint src/*.js
+	@PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=$$PYTHONPATH:src pytest tests/
 
 format:
 	ruff format

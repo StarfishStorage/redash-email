@@ -54,13 +54,12 @@ specified UID/GID
 Running Checks
 --------------
 
-To run lint and unit tests:
+To run unit tests:
 
     python3 -m venv ~/.venv/redash-email
     source ~/.venv/redash-email/bin/activate
     pip install -r dev.txt
     npm install
-    make lint
     make format
     make check
 
