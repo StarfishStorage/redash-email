@@ -26,7 +26,7 @@ Build Docker Image
 
 A local caching proxy may be used to reduce latency
 
-    make image
+    make
 
 Site Installation
 -----------------
@@ -51,8 +51,8 @@ specified UID/GID
       -v /var/reports/user-report.yaml:/home/automation/report.yaml \
       -t $IMAGE --dry-run
 
-Running Checks
---------------
+Running Unit Tests
+------------------
 
 To run unit tests:
 
@@ -60,11 +60,10 @@ To run unit tests:
     source ~/.venv/redash-email/bin/activate
     pip install -r dev.txt
     npm install
-    make format
-    make check
+    make tests
 
-Running System Test
--------------------
+Running Integration Tests
+-------------------------
 
 Install prerequisites:
 
@@ -72,9 +71,9 @@ Install prerequisites:
 
 To run the tests:
 
-    make image
+    make
     make up
-    make test
+    make integration-tests
 
 Verify email body and attachments at `http://$(hostname -i):1080/`
 
