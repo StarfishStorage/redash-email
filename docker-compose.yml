@@ -1,5 +1,5 @@
 x-redash-service: &redash-service
-  image: redash/preview:25.01.0-dev
+  image: redash/preview:25.06.0-dev
   env_file:
     - .env
 x-redash-environment: &redash-environment
@@ -43,7 +43,7 @@ services:
     image: redis:7-alpine
     restart: unless-stopped
   postgres:
-    image: postgres:16-alpine
+    image: postgres:17-alpine
     ports:
       - "15432:5432"
     restart: unless-stopped
