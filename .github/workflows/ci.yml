@@ -34,4 +34,17 @@ jobs:
         with:
           python-version: '3.8'
       - run: pip install -r dev.txt
-      - run: make check
+      - run: make tests
+
+  integration-tests:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          ref: ${{ github.event.pull_request.head.sha }}
+      - run: sudo apt-get -y install pwgen
+      - run: make image
+      - run: make up
+      - run: make integration-test
+      - run: make down
