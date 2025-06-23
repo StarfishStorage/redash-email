@@ -137,17 +137,20 @@ function replaceParams(pageUrl, params) {
     todayDiv.innerText = "Generated on " + formatDate(new Date());
 
     /* Replace dropdown search inputs with text inputs */
-    const container = document.getElementsByClassName("parameter-container")[0];
     for (const param in params) {
       let param_matches = 0;
-      for (const labelElement of container.getElementsByTagName("label")) {
-        if (labelElement.innerText.toLowerCase() == param) {
+      for (const parameterBlock of document.getElementsByClassName(
+        "parameter-block",
+      )) {
+        if (
+          parameterBlock.getAttribute("data-test") == `ParameterBlock-${param}`
+        ) {
+          const parameterInput =
+            parameterBlock.getElementsByClassName("parameter-input");
           param_matches++;
-          labelElement.parentElement.nextElementSibling.innerHTML = `
-          <div class="parameter-input" data-test="ParameterValueInput">
-            <input class="ant-input" aria-label="Parameter text value"
-                   data-test="TextParamInput" type="text" value="${params[param]}">
-          </div>
+          parameterInput[0].innerHTML = `
+          <input class="ant-input" aria-label="Parameter text value"
+                 data-test="TextParamInput" type="text" value="${params[param]}">
           `;
         }
       }
