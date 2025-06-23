@@ -158,25 +158,6 @@ function replaceParams(pageUrl, params) {
         throw Error(`no match found for parameter "${param}"`);
     }
 
-    /* Add fake top-level parameter inputs if not found */
-    const paramBlock = document.getElementsByClassName("parameter-block")[0];
-    for (const param in params) {
-      if (!paramBlock.innerHTML.includes("-" + param)) {
-        paramBlock.innerHTML += `
-        <div style="padding-left: 1em;" class="parameter-block">
-          <div class="di-block">
-            <div class="parameter-heading">
-              <label>${param}</label>
-            </div>
-            <div class="parameter-input">
-              <input class="ant-input" value="${params[param]}">
-            </div>
-          </div>
-        </div>
-        `;
-      }
-    }
-
     /* Remove apply button, if visible */
     const applyButton = document.getElementsByClassName(
       "parameter-apply-button",
