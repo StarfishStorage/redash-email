@@ -31,7 +31,7 @@ def remember_cwd():
 if __name__ == "__main__":
     os.chdir(os.path.dirname(__file__))
     try:
-        buildinfo = open(".build", "r", encoding="utf-8").read()  # pylint: disable=R1732
+        buildinfo = open(".build", "r", encoding="utf-8").read()
     except FileNotFoundError:
         buildinfo = ""
     parser = argparse.ArgumentParser(description=buildinfo, formatter_class=RawTextHelpFormatter)
@@ -142,6 +142,7 @@ if __name__ == "__main__":
                     (query_id, query_params) = redash.dashboard_widget(dashboard_id, q_name)
                     if parameter:
                         query_params[key] = parameter
+
                     query_params.update(q_extra)
 
                     try:
@@ -166,7 +167,7 @@ if __name__ == "__main__":
                         os.chdir(tmpdir)
                         sm.attach(csv_filename, mimetype="text/csv")
 
-                if not args.dry_run:
+                if not args.dry_run and args.verbose:
                     print("Connect to", sm)
                     sm.send_smtp()
         finally:

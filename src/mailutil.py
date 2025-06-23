@@ -55,7 +55,7 @@ class MailUtil:
     def send_smtp(self):
         """Send mail using smtp, smtps, or smtp+tls"""
 
-        for hdr in self.headers:  # pylint: disable=C0206
+        for hdr in self.headers:
             self.message[hdr] = self.headers[hdr]
 
         if self.host_url.scheme == "smtps":

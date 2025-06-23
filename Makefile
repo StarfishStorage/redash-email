@@ -28,7 +28,7 @@ up: .env
 	@echo "redash: http://${MYIP}:5001/  # redash@redash.io ${PASS}"
 
 integration-tests:
-	tests/integration-test.sh --verbose
+	tests/integration-test.sh
 
 down:
 	@touch .env
