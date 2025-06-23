@@ -67,7 +67,7 @@ Running Integration Tests
 
 Install prerequisites:
 
-    apt-get install pwgen docker.io docker-buildx docker-compose-v2
+    apt-get install docker.io docker-buildx docker-compose-v2
 
 To run the tests:
 

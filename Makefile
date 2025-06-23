@@ -1,8 +1,8 @@
 IMAGE=redash-email:latest
 PATH:=/usr/lib/postgresql/16/bin:/usr/pgsql-16/bin:$(PATH)
 # values used for integration test
-MYIP != hostname -i
-PASS != pwgen -1s 6
+MYIP != tests/myip.sh
+PASS != tests/pwgen.py 8
 
 image:
 	docker build -t ${IMAGE} -f Dockerfile .
@@ -16,7 +16,7 @@ tests:
 	@PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=$$PYTHONPATH:src pytest tests/
 
 .env:
-	printf "REDASH_COOKIE_SECRET=`pwgen -1s 32`\nREDASH_SECRET_KEY=`pwgen -1s 32`\n" >> .env
+	printf "REDASH_COOKIE_SECRET=`tests/pwgen.py 32`\nREDASH_SECRET_KEY=`tests/pwgen.py 32`\n" >> .env
 
 up: .env
 	docker compose up --quiet-pull -d
@@ -27,7 +27,7 @@ up: .env
 	@echo "maildev: http://${MYIP}:1080/"
 	@echo "redash: http://${MYIP}:5001/  # redash@redash.io ${PASS}"
 
-integration-test:
+integration-tests:
 	tests/integration-test.sh --verbose
 
 down:

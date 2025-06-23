@@ -43,8 +43,7 @@ jobs:
         with:
           fetch-depth: 1
           ref: ${{ github.event.pull_request.head.sha }}
-      - run: sudo apt-get -y install pwgen
       - run: make image
       - run: make up
-      - run: make integration-test
+      - run: make integration-tests
       - run: make down
