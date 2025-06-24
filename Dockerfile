@@ -1,4 +1,4 @@
-FROM node:18-bookworm
+FROM node:20-bookworm
 
 RUN apt-get -y update
 RUN apt-get -y install python3-requests python3-yaml python3-jinja2
@@ -12,7 +12,7 @@ USER automation
 WORKDIR /home/automation
 ENV PUPPETEER_CACHE_DIR="/home/automation"
 ENV NODE_PATH="/home/automation/node_modules"
-RUN npm -d install puppeteer@23.8.0
+RUN npm -d install puppeteer@24.10.2
 
 COPY --chown=automation:automation src/* /home/automation/
 RUN install -d -m 1777 -o automation -g automation /home/automation/reports
