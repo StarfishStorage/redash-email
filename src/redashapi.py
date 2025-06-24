@@ -93,6 +93,8 @@ class Redash:
         # Return dashboard parameters
         reply = self.get(f"dashboards/{dashboard_id}")
         for widget in reply["widgets"]:
+            if "visualization" not in widget:
+                continue
             query = widget["visualization"]["query"]
             if query["name"] == name and query["is_archived"] is False:
                 parameters = query["options"]["parameters"]
@@ -112,11 +114,13 @@ class Redash:
         if "job" in reply:
             status = reply["job"]["status"]
             job_id = reply["job"]["id"]
-            while status in (JobStatus.PENDING, JobStatus.STARTED):
+            while reply["job"]["query_result_id"] is None:
                 reply = self.get(f"jobs/{job_id}")
                 status = reply["job"]["status"]
-                if status in (JobStatus.FAILURE, JobStatus.CANCELLED):
-                    print(reply)
+                if status == JobStatus.FAILURE:
+                    raise APIError(f"job for query_id {query_id} failed")
+                if status == JobStatus.CANCELLED:
+                    raise APIError(f"job for query_id {query_id} canceled")
                 time.sleep(2)
             return reply["job"]["query_result_id"]
         return reply["query_result"]["id"]

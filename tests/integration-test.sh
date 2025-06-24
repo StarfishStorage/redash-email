@@ -48,8 +48,10 @@ YAML
 docker run --network redash-email \
     --user $(id -u):$(id -g) \
     -v $yaml_config:/home/automation/report.yaml \
-    -t $image "$@" | tee $out
-grep -q "Connect to host email using SMTP" $out
+    -t $image --verbose | tee $out
+egrep -q "node save-report.js --url http://server:5000/public/dashboards/.{40} --output 'reports/.{16}/Test Dashboard - true.pdf' --param is_archived=true" $out
+egrep -q "curl -sS -k -o 'reports/.{16}/Query Summary - true.csv' 'http://server:5000/api/query_results/[0-9]+.csv\?api_key=.{40}'" $out
+grep -q "Connect to host email using SMTP port 1025" $out
 
 log "Raise error if parameter is not found"
 cat <<YAML > $yaml_config
