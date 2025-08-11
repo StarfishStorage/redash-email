@@ -113,10 +113,8 @@ function replaceParams(pageUrl, params) {
     /* Remove refreshed-at timesamp */
     removeElementsByClass("visible-print");
 
-    /* Replace branding added by public URL */
-    document.getElementById("footer").innerHTML = `
-    <img src="/img/logo.png" height="40">
-    `;
+    /* Remove Redash logo */
+    document.getElementById("footer").innerHTML = ""
 
     /* Style tewaks */
     const style = document.createElement("style");
