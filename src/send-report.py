@@ -46,6 +46,12 @@ if __name__ == "__main__":
         "--print", action="store_true", default=False, help="Print config map and exit"
     )
     parser.add_argument(
+        "--screenshot",
+        action="store_true",
+        default=False,
+        help="Take a PNG screenshot instead of rendering multi-page PDF",
+    )
+    parser.add_argument(
         "--verbose", action="store_true", default=False, help="Print external commands"
     )
     args = parser.parse_args()
@@ -61,6 +67,11 @@ if __name__ == "__main__":
 
     tmpdir = os.path.join("reports", datetime.now().strftime(TS_FORMAT))
     os.makedirs(tmpdir, exist_ok=True)
+
+    if args.screenshot:
+        output_ext = "png"
+    else:
+        output_ext = "pdf"
 
     for report in cfg["reports"]:
         (dashboard_id, dashboard_slug) = redash.dashboard_id(report["dashboard"])
@@ -104,17 +115,19 @@ if __name__ == "__main__":
                 sm.set_body(body + "\n\n")
 
                 if parameter:
-                    pdf_filename = f"{report['dashboard']} - {parameter}.pdf"
+                    output_path = f"{report['dashboard']} - {parameter}.{output_ext}"
                 else:
-                    pdf_filename = f"{report['dashboard']}.pdf"
+                    output_path = f"{report['dashboard']}.{output_ext}"
                 cmd = [
                     "node",
                     "save-report.js",
                     "--url",
                     public_url,
                     "--output",
-                    os.path.join(tmpdir, pdf_filename),
+                    os.path.join(tmpdir, output_path),
                 ]
+                if args.screenshot:
+                    cmd.extend(["--screenshot"])
                 if parameter:
                     cmd.extend(["--param", f"{key}={parameter}"])
                 if cfg["render_delay"] > 0:
@@ -126,7 +139,10 @@ if __name__ == "__main__":
 
                 with remember_cwd():
                     os.chdir(tmpdir)
-                    sm.attach(pdf_filename, mimetype="application/pdf")
+                    if args.screenshot:
+                        sm.attach(output_path, mimetype="image/png")
+                    else:
+                        sm.attach(output_path, mimetype="application/pdf")
 
                 attachments = report.get("attachments", [])
                 for redash_query in attachments:

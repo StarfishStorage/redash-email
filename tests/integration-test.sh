@@ -18,6 +18,27 @@ out=$tmpdir/send-report.out
 redash_api_key=$(docker compose exec postgres psql -At -U postgres -c "SELECT api_key FROM users WHERE email='redash@redash.io'")
 mailto="${USER}@localhost"
 
+log "Send screenshot"
+cat <<YAML > $yaml_config
+redash_url: http://server:5000
+redash_key: ${redash_api_key}
+sender: Redash <admin@redash.io>
+mailhost_url: smtp://email:1025
+message_body: |
+  Attached is a screenshot of the report.
+
+reports:
+  - dashboard: "Test Dashboard"
+    recipients:
+      - ${mailto}
+YAML
+docker run --network redash-email \
+    --user $(id -u):$(id -g) \
+    -v $yaml_config:/home/automation/report.yaml \
+    -t $image --verbose --screenshot | tee $out
+egrep -q "node save-report.js --url http://server:5000/public/dashboards/.{40} --output 'reports/.{16}/Test Dashboard.png'" $out
+grep -q "Connect to host email using SMTP port 1025" $out
+
 log "Send PDF for two parameters and attach query"
 cat <<YAML > $yaml_config
 redash_url: http://server:5000
