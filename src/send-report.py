@@ -87,7 +87,7 @@ if __name__ == "__main__":
                 )
 
                 if parameter:
-                    parameter_key = "p_{key}"
+                    parameter_key = f"p_{key}"
                     qs = urlencode({parameter_key: parameter})
                 else:
                     qs = ""
