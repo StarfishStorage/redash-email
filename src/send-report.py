@@ -183,8 +183,9 @@ if __name__ == "__main__":
                         os.chdir(tmpdir)
                         sm.attach(csv_filename, mimetype="text/csv")
 
-                if not args.dry_run and args.verbose:
-                    print("Connect to", sm)
+                if not args.dry_run:
+                    if args.verbose:
+                        print("Connect to", sm)
                     sm.send_smtp()
         finally:
             redash.dashboard_reset(dashboard_id)
