@@ -130,8 +130,10 @@ if __name__ == "__main__":
                     cmd.extend(["--screenshot"])
                 if parameter:
                     cmd.extend(["--param", f"{key}={parameter}"])
-                if cfg["render_delay"] > 0:
+                if "render_delay" in cfg:
                     cmd.extend(["--delay", str(cfg["render_delay"])])
+                if "navigation_timeout" in cfg:
+                    cmd.extend(["--timeout", str(cfg["navigation_timeout"])])
 
                 if args.verbose:
                     print(shlex.join(cmd))
