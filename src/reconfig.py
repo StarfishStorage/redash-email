@@ -11,9 +11,6 @@ class Config(dict):
         self.yaml_src = yaml_src
         self.update(yaml.safe_load(yaml_src))
 
-        if "render_delay" not in self:
-            self["render_delay"] = 0.5
-
     @classmethod
     def from_file(cls, fn):
         return cls(open(fn, "r", encoding="utf-8").read())
@@ -28,7 +25,6 @@ class Config(dict):
             "message_body",
             "redash_key",
             "redash_url",
-            "render_delay",
             "reports",
             "sender",
         ]:
@@ -40,5 +36,11 @@ class Config(dict):
         if not isinstance(self["reports"], list):
             raise ValidationError("'reports' key must be a list")
 
-        if self["render_delay"] < 0 or self["render_delay"] > 10:
-            raise ValidationError("'render_delay' must be a value between 0 and 10")
+        # optional keys
+        if "render_delay" in self:
+            if self["render_delay"] < 0 or self["render_delay"] > 10:
+                raise ValidationError("'render_delay' must be a value between 0 and 10")
+
+        if "navigation_timeout" in self:
+            if self["navigation_timeout"] < 10 or self["navigation_timeout"] > 3600:
+                raise ValidationError("'navigation_timeout' must be a value between 10 and 3600")

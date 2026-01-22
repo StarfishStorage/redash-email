@@ -4,6 +4,7 @@ const { setTimeout } = require("node:timers/promises");
 function usage() {
   console.log(
     "usage: save-report.js --url redash_url --output report.pdf " +
+      "[--delay seconds] [--timeout seconds] " +
       "[--param value] [--param value]",
   );
   process.exit(1);
@@ -12,7 +13,8 @@ function usage() {
 /* Argument parsing */
 let redashUrl;
 let outputFile;
-let renderDelay;
+let renderDelay = 0.5;
+let navigationTimeout = 300;
 let screenshot = false;
 const params = {};
 
@@ -23,6 +25,9 @@ for (let i = 2; i < process.argv.length; i++) {
       break;
     case "--delay":
       renderDelay = parseFloat(process.argv[++i]);
+      break;
+    case "--timeout":
+      navigationTimeout = parseInt(process.argv[++i]);
       break;
     case "--output":
       outputFile = process.argv[++i];
@@ -66,9 +71,8 @@ function replaceParams(pageUrl, params) {
   });
   const page = await browser.newPage();
 
-  const timeoutSec = 300;
-  page.setDefaultNavigationTimeout(timeoutSec * 1000);
-  page.setDefaultTimeout(timeoutSec * 1000);
+  page.setDefaultNavigationTimeout(navigationTimeout * 1000);
+  page.setDefaultTimeout(navigationTimeout * 1000);
 
   /* Fetch page and wait for redirects */
   await page.goto(redashUrl, {
