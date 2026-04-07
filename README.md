@@ -87,3 +87,4 @@ Limitations
 Dashboards are rendered by enabling a share link, but Redash does not allow
 dashboards with Text parameters to be shared. All parameters must be a Text
 Pattern, Number, Dropdown List, or Date.
+a
