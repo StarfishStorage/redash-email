@@ -47,6 +47,7 @@ sender: Redash <admin@redash.io>
 mailhost_url: smtp://email:1025
 render_delay: 0
 navigation_timeout: 20
+protocol_timeout: 10
 message_body: |
   Attached is a PDF of the report.
 

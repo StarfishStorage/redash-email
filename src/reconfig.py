@@ -44,3 +44,7 @@ class Config(dict):
         if "navigation_timeout" in self:
             if self["navigation_timeout"] < 10 or self["navigation_timeout"] > 3600:
                 raise ValidationError("'navigation_timeout' must be a value between 10 and 3600")
+
+        if "protocol_timeout" in self:
+            if self["protocol_timeout"] < 10 or self["protocol_timeout"] > 1200:
+                raise ValidationError("'protocol_timeout' must be a value between 10 and 1200")
