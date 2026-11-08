@@ -4,8 +4,8 @@ const { setTimeout } = require("node:timers/promises");
 function usage() {
   console.log(
     "usage: save-report.js --url redash_url --output report.pdf " +
-      "[--delay seconds] [--timeout seconds] " +
-      "[--param value] [--param value]",
+      "[--delay seconds] [--navigation-timeout seconds] " +
+      "[--protocol-timeout seconds] [--param value] [--param value]",
   );
   process.exit(1);
 }
@@ -15,6 +15,7 @@ let redashUrl;
 let outputFile;
 let renderDelay = 0.5;
 let navigationTimeout = 300;
+let protocolTimeout = 180;
 let screenshot = false;
 const params = {};
 
@@ -26,8 +27,11 @@ for (let i = 2; i < process.argv.length; i++) {
     case "--delay":
       renderDelay = parseFloat(process.argv[++i]);
       break;
-    case "--timeout":
+    case "--navigation-timeout":
       navigationTimeout = parseInt(process.argv[++i]);
+      break;
+    case "--protocol-timeout":
+      protocolTimeout = parseInt(process.argv[++i]);
       break;
     case "--output":
       outputFile = process.argv[++i];
@@ -68,6 +72,7 @@ function replaceParams(pageUrl, params) {
     defaultViewport: { width: 1200, height: 1200 },
     args: ["--ignore-certificate-errors", "--no-sandbox"],
     headless: "new",
+    protocolTimeout: protocolTimeout * 1000,
   });
   const page = await browser.newPage();
 

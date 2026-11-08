@@ -133,7 +133,9 @@ if __name__ == "__main__":
                 if "render_delay" in cfg:
                     cmd.extend(["--delay", str(cfg["render_delay"])])
                 if "navigation_timeout" in cfg:
-                    cmd.extend(["--timeout", str(cfg["navigation_timeout"])])
+                    cmd.extend(["--navigation-timeout", str(cfg["navigation_timeout"])])
+                if "protocol_timeout" in cfg:
+                    cmd.extend(["--protocol-timeout", str(cfg["protocol_timeout"])])
 
                 if args.verbose:
                     print(shlex.join(cmd))
